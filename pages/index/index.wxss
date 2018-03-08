@@ -1,0 +1,63 @@
+/**index.wxss**/
+page{
+    background:#eee;
+}
+.step{
+    margin:40rpx 60rpx 0;
+    height:20rpx;
+    border-radius:40px;
+    background:#eee;
+}
+.step-bar{
+    background:red;
+    height:20rpx;
+    width:20%;
+    border-radius:60px;
+    transition: .5s ease-in;
+    
+}
+.form-container{
+    margin:60rpx;
+}
+.form-container label{
+    font-size:12px;
+    color:#888;
+    font-weight:700;
+}
+.form-container input{
+    border-bottom:1px solid #eee;
+    font-size:32rpx;
+    padding:20rpx 0;
+}
+
+.next{
+    text-align:center;
+    padding:30rpx 0;
+}
+.company{
+    font-size:28rpx;
+}
+.card{
+    margin:60rpx 40rpx;
+    border-radius:0;
+    box-shadow:0 22px 50px rgba(0, 0, 0, 0.2);
+    background:#fff;
+    font-size:14px;
+    padding:30rpx;
+    position: relative;
+}
+.card-info{
+    font-size:20rpx;
+}
+.position{
+    font-size:13px;
+}
+.name{
+    font-size:48rpx;
+    margin-bottom:40px;
+    font-weight:700;
+}
+.edit{
+    position:absolute;
+    right:0;top:0;
+}

@@ -1,0 +1,48 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view> -->
+  <view class="card">
+        <view class='name'>{{card.name}}
+            <view class='position' wx:if="{{card.position}}">{{card.position}}</view>
+        </view>
+        <view class='card-info'>
+            <view class='company' wx:if="{{ card.company && card.company!=''}}">{{card.company}}</view>
+            <view class='address' wx:if="{{ card.address && card.address!=''}}">{{card.address}}</view>
+            <view class='phone'>{{card.phone}}</view>
+            <view wx:if="{{ card.landline && card.landline!=''}}">{{card.landline}}</view>
+            <view wx:if="{{ card.email && card.email!=''}}">{{card.email}}</view>
+        </view>
+
+        <view class="edit">编辑</view>
+    </view>
+
+    <view class='step'>
+        <view class='step-bar' style="width:{{(currForm+1)*25}}%"></view>
+    </view>
+    <view class='form'>
+        <form>
+            <view class='form-container'>
+                <view wx:for="{{form[currForm]}}" wx:key="forms">
+                <label>{{(item.numbers)?item.txt:item}}</label>
+                    <input id="{{index}}" 
+                    placeholder='{{(item.numbers)?item.txt:item}}' 
+                    type="{{(item.numbers)?'number':'text'}}" 
+                    maxlength='{{(item.numbers)?item.max:"-1"}}'
+                    bindinput="bindKeyInput" value='{{card[index]}}'></input>
+                </view>
+            </view>
+        </form>
+        <view class='next' bindtap='{{(currForm==3)?"creatCard":"nextSetp"}}'>{{(currForm==3)?"保存":"下一步"}}</view>
+    </view>
+
+    
+</view>
