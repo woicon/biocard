@@ -10,39 +10,62 @@
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
   </view> -->
-  <view class="card">
-        <view class='name'>{{card.name}}
+  <view class="card" wx:if="{{viewStat}}">
+        <view class='card-head'>
+            <image src="{{userInfo.avatarUrl}}"></image>
+            <view>
+            <view class='name'>{{card.name}}</view>
             <view class='position' wx:if="{{card.position}}">{{card.position}}</view>
+            </view>
         </view>
         <view class='card-info'>
             <view class='company' wx:if="{{ card.company && card.company!=''}}">{{card.company}}</view>
-            <view class='address' wx:if="{{ card.address && card.address!=''}}">{{card.address}}</view>
-            <view class='phone'>{{card.phone}}</view>
-            <view wx:if="{{ card.landline && card.landline!=''}}">{{card.landline}}</view>
-            <view wx:if="{{ card.email && card.email!=''}}">{{card.email}}</view>
+            <view class='address' wx:if="{{ card.address && card.address!=''}}">地址：{{card.address}}</view>
+            <view class='phone'>手机号：{{card.phone}}</view>
+            <view wx:if="{{ card.website && card.website!=''}}" class='website'>网址：{{card.website}}</view>
+            <view wx:if="{{ card.landline && card.landline!=''}}">座机：{{card.landline}}</view>
+            <view wx:if="{{ card.email && card.email!=''}}">邮箱：{{card.email}}</view>
+            <view wx:if="{{ card.qq && card.qq!=''}}">QQ号：{{card.qq}}</view>
         </view>
 
         <view class="edit">编辑</view>
     </view>
 
-    <view class='step'>
-        <view class='step-bar' style="width:{{(currForm+1)*25}}%"></view>
-    </view>
+    
+    <view class='card-show {{viewStat?"show":""}}' bindtap='toggleView'>show</view>
+
     <view class='form'>
+        <view class='step'>
+            <view class='step-bar' style="width:{{(currForm+1)*25}}%"></view>
+        </view>
         <form>
             <view class='form-container'>
                 <view wx:for="{{form[currForm]}}" wx:key="forms">
-                <label>{{(item.numbers)?item.txt:item}}</label>
-                    <input id="{{index}}" 
-                    placeholder='{{(item.numbers)?item.txt:item}}' 
-                    type="{{(item.numbers)?'number':'text'}}" 
-                    maxlength='{{(item.numbers)?item.max:"-1"}}'
-                    bindinput="bindKeyInput" value='{{card[index]}}'></input>
+                <label>
+                <text wx:if="{{item.error}}">*</text>{{item.txt}}
+                <text wx:if="{{item.errorstat}}" class='error'>{{item.error}}</text>
+                </label>
+                    <view class='input-line {{item.focus?"input-focus":""}}'>
+                        <view class='input'>                        
+                            <input id="{{index}}" 
+                            placeholder='{{item.txt}}' 
+                            type="{{(item.numbers)?'number':'text'}}" 
+                            maxlength='{{(item.numbers)?item.max:"-1"}}'
+                            bindfocus='inputFocus'
+                            bindinput="bindKeyInput"
+                            bindblur='inputBlur'
+                            focus='{{item.focus}}'
+                            value='{{card[index]}}'></input>
+                        </view>
+                        <!-- <view class='clear' bindtap='clearInput' id="{{index}}" wx:if="{{item.clear}}">清空</view> -->
+                    </view>
                 </view>
             </view>
         </form>
-        <view class='next' bindtap='{{(currForm==3)?"creatCard":"nextSetp"}}'>{{(currForm==3)?"保存":"下一步"}}</view>
+        <view class='buttonbar'>
+            <view class='back' wx:if="{{currForm<=3 && currForm>0}}" bindtap='backStep'>上一步</view>
+            <view class='next' bindtap='{{(currForm==3)?"creatCard":"nextStep"}}'>{{(currForm==3)?"保存":"下一步"}}</view>
+        </view>
     </view>
-
-    
 </view>
+<view class='bg'></view>
