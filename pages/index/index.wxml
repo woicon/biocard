@@ -27,14 +27,13 @@
             <view wx:if="{{ card.email && card.email!=''}}">邮箱：{{card.email}}</view>
             <view wx:if="{{ card.qq && card.qq!=''}}">QQ号：{{card.qq}}</view>
         </view>
-
-        <view class="edit">编辑</view>
+        <!-- <view class="edit">编辑</view> -->
     </view>
 
     
     <view class='card-show {{viewStat?"show":""}}' bindtap='toggleView'>show</view>
 
-    <view class='form'>
+    <view class='form {{newCard?"show":""}}'>
         <view class='step'>
             <view class='step-bar' style="width:{{(currForm+1)*25}}%"></view>
         </view>
@@ -46,16 +45,36 @@
                 <text wx:if="{{item.errorstat}}" class='error'>{{item.error}}</text>
                 </label>
                     <view class='input-line {{item.focus?"input-focus":""}}'>
-                        <view class='input'>                        
-                            <input id="{{index}}" 
-                            placeholder='{{item.txt}}' 
-                            type="{{(item.numbers)?'number':'text'}}" 
-                            maxlength='{{(item.numbers)?item.max:"-1"}}'
-                            bindfocus='inputFocus'
-                            bindinput="bindKeyInput"
-                            bindblur='inputBlur'
-                            focus='{{item.focus}}'
-                            value='{{card[index]}}'></input>
+                        <view class='input'>
+                            <block wx:if="{{!item.isArray}}">                 
+                                <input id="{{index}}" 
+                                placeholder='{{item.txt}}' 
+                                type="{{(item.numbers)?'number':'text'}}" 
+                                maxlength='{{(item.numbers)?item.max:"-1"}}'
+                                bindfocus='inputFocus'
+                                bindinput="bindKeyInput"
+                                data-arr="{{item.isArray}}"
+                                bindblur='inputBlur'
+                                focus='{{item.focus}}'
+                                value='{{card[index]}}'></input>
+                            </block>
+                            <block wx:else>
+                                <view wx:for="{{valueArray}}" wx:key="valuekey" wx:for-item="vitem" wx:for-index="vindex">
+                                    <input id="{{index}}" 
+                                    placeholder='{{item.txt}}'
+                                    type="{{(item.numbers)?'number':'text'}}" 
+                                    maxlength='{{(item.numbers)?item.max:"-1"}}'
+                                    bindfocus='inputFocus'
+                                    
+                                    bindinput="bindKeyInput"
+                                    data-arr="{{item.isArray}}"
+                                    data-arrindex="{{vindex}}"
+                                    bindblur='inputBlur'
+                                    focus='{{item.focus}}'
+                                    value='{{card[index]}}'></input>
+                                </view>
+                            </block>
+                            <view class='newvalue' wx:if="{{item.isArray}}" bindtap='newValue'>+</view>
                         </view>
                         <!-- <view class='clear' bindtap='clearInput' id="{{index}}" wx:if="{{item.clear}}">清空</view> -->
                     </view>
@@ -66,6 +85,10 @@
             <view class='back' wx:if="{{currForm<=3 && currForm>0}}" bindtap='backStep'>上一步</view>
             <view class='next' bindtap='{{(currForm==3)?"creatCard":"nextStep"}}'>{{(currForm==3)?"保存":"下一步"}}</view>
         </view>
+    </view>
+    <view class='indexbar'>
+        <view class='addcard' bindtap='addNewCard'>new card</view>
+        <view class='showcard'>show for friends</view>
     </view>
 </view>
 <view class='bg'></view>

@@ -9,7 +9,7 @@ Page({
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         creatingBookName: "ssss书名nullsss",
-        viewStat:true,
+        viewStat:false,
         card: {
             address: "Beijing",
             company: "北京市腾讯计算机有限公司",
@@ -23,6 +23,7 @@ Page({
             position: "CEO",
             openid: "98983213123",
         },
+        valueArray:[0],
         currForm: 0,
         form: [
             {
@@ -36,7 +37,8 @@ Page({
                     numbers: true,
                     txt: "手机号码",
                     error: "手机号也必须要填写哟",
-                    max: 11
+                    max: 11,
+                    isArray:true
                 },
             }, {
                 company: {
@@ -54,7 +56,8 @@ Page({
                 landline: {
                     numbers: true,
                     txt: "座机号",
-                    max: 11
+                    max: 11,
+                    isArray:true
                 },
                 email: {
                     txt: "电子邮件",
@@ -88,18 +91,33 @@ Page({
         console.log(e)
         let that = this
         let card = this.data.card
-        card[e.target.id] = e.detail.value
+        
         if (e.detail.value != ''){
             that.setStat(['errorstat'], e,false)
         }else{
             that.setStat(['errorstat'], e,true)
         }
-
+        if (e.currentTarget.dataset.isArray){
+            card[e.target.id] = []
+        }else{
+            card[e.target.id] = e.detail.value
+        }
         this.setData({
             card: card
         })
     },
-
+    newValue:function(e){
+        console.log(e)
+        let that = this
+        let valueArray = that.data.valueArray
+        let valueNumber = valueArray[0]
+            valueArray.push(valueNumber)
+            console.log(valueArray)
+        that.setData({
+            valueArray:valueArray
+        })
+        //valueArray
+    },
     setStat:function(arr,e,s) {
         let that = this
         let form = that.data.form,
@@ -122,18 +140,18 @@ Page({
     },
     inputFocus: function (e) {
         let that = this
-        console.log("inputFocus",e)
-       that.setStat(['focus',"clear"],e,true)
-        if (e.detail.value == '') {
-            that.setStat('errorstat', e,true)
-        }
+    //     console.log("inputFocus",e)
+    //    that.setStat(['focus',"clear"],e,true)
+    //     if (e.detail.value == '') {
+    //         that.setStat('errorstat', e,true)
+    //     }
      },
     inputBlur:function(e){  
-        let that = this
-        that.setStat('focus', e,false)
-        if (e.detail.value == '') {
-            that.setStat('errorstat', e,true)
-        }
+        // let that = this
+        // that.setStat('focus', e,false)
+        // if (e.detail.value == '') {
+        //     that.setStat('errorstat', e,true)
+        // }
     },
     // clearInput:function(e){
     //     let that = this
